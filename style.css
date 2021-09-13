@@ -2,9 +2,11 @@ html, body {
     font-family: 'Open Sans', sans-serif;
     font-size: 14px;
     margin: 0;
-    min-height: 180px;
+    min-height: 80px;
     padding: 0;
-    width: 384px;
+    width: 350px;
+    background-color: #000;
+    color: #fff;
 }
 
 h1 {
@@ -40,7 +42,7 @@ p {
     position: relative;
     display: inline-block;
     width: 60px;
-    height: 34px;
+    height: 30px;
   }
   
   /* Hide default HTML checkbox */
@@ -66,8 +68,8 @@ p {
   .slider:before {
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
+    height: 23px;
+    width: 23px;
     left: 4px;
     bottom: 4px;
     background-color: white;

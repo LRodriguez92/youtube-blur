@@ -1,6 +1,15 @@
-const blurSwitch = document.querySelector("#blur-input")
+console.log("connected!")
+
+chrome.runtime.onMessage.addListener((request) => {
+    console.log("Request: ", request)
+    if (request) {
+        blurThumbnails()
+        window.addEventListener("scroll", blurThumbnails)
+    } 
+})
 
 const blurThumbnails = () => {
+    console.log("blurring!")
     const images = document.querySelectorAll("#thumbnail, #avatar")
     
     const textBlocks = document.querySelectorAll(".yt-formatted-string, #video-title, .ytd-video-meta-block, .ytd-rich-shelf-renderer")
@@ -24,12 +33,3 @@ const blurThumbnails = () => {
     })
 }
 
-
-const blurChecked = () => {
-    if (blurSwitch.checked) {
-        window.onload(blurChecked)
-        window.addEventListener("scroll", blurThumbnails)
-    }
-}
-
-blurSwitch.addEventListener("click", blurChecked)
