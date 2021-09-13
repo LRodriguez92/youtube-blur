@@ -7,6 +7,34 @@ html, body {
     width: 384px;
 }
 
+h1 {
+    font-family: 'Menlo', monospace;
+    font-size: 18px;
+    font-weight: 400;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+img {
+    width: 30px;
+}
+
+.modal-header {
+    border-bottom: 0.5px solid #dadada;
+}
+
+.modal-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+p {
+    font-size: 15px;;
+}
+
 /* The switch - the box around the slider */
 .switch {
     position: relative;
