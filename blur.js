@@ -1,16 +1,21 @@
 chrome.runtime.onMessage.addListener((request) => {  
-    if (request) {
-        blurThumbnails()
-        window.addEventListener("scroll", blurThumbnails)
-    } else {
+    console.log("request: ", request)
+    if (request.checked === false || request === false) {
+        console.log("false so show");
         showThumbnails()
+        window.removeEventListener("scroll", blurThumbnails)
         window.addEventListener("scroll", showThumbnails)
-        }
+    } else {
+        console.log("true so blur");
+        blurThumbnails()
+        window.removeEventListener("scroll", showThumbnails)
+        window.addEventListener("scroll", blurThumbnails)
+    }
 })
     
     
 const blurThumbnails = () => {
-    console.log("blurring!")
+    console.log("In blurThumbails!")
     
     const images = document.querySelectorAll("#thumbnail, #avatar")
     const textBlocks = document.querySelectorAll(".yt-formatted-string, #video-title, .ytd-video-meta-block, .ytd-rich-shelf-renderer")
@@ -35,7 +40,7 @@ const blurThumbnails = () => {
 }
 
 const showThumbnails = () => {
-    console.log("showing thumbnails!")
+    console.log("In showThumbnails!")
     
     const images = document.querySelectorAll("#thumbnail, #avatar")
     const textBlocks = document.querySelectorAll(".yt-formatted-string, #video-title, .ytd-video-meta-block, .ytd-rich-shelf-renderer")
