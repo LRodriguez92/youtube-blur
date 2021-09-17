@@ -1,3 +1,13 @@
+chrome.storage.sync.get(['checked'], result => {
+    console.log(`Checked currently is: ${result.checked}`)
+
+    if(result.checked) {
+        blurThumbnails()
+    } else {
+        showThumbnails()
+    }
+});
+
 chrome.runtime.onMessage.addListener((request) => {  
     console.log("request: ", request)
     if (request.checked === false || request === false) {
