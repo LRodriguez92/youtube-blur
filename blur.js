@@ -1,5 +1,5 @@
+// Checks "checked" value in storage
 chrome.storage.sync.get(['checked'], result => {
-    console.log(`Checked currently is: ${result.checked}`)
 
     if(result.checked) {
         blurThumbnails()
@@ -8,15 +8,13 @@ chrome.storage.sync.get(['checked'], result => {
     }
 });
 
+// Checks for messages being sent
 chrome.runtime.onMessage.addListener((request) => {  
-    console.log("request: ", request)
     if (request.checked === false || request === false) {
-        console.log("false so show");
         showThumbnails()
         window.removeEventListener("scroll", blurThumbnails)
         window.addEventListener("scroll", showThumbnails)
     } else {
-        console.log("true so blur");
         blurThumbnails()
         window.removeEventListener("scroll", showThumbnails)
         window.addEventListener("scroll", blurThumbnails)
@@ -25,7 +23,6 @@ chrome.runtime.onMessage.addListener((request) => {
     
     
 const blurThumbnails = () => {
-    console.log("In blurThumbails!")
     
     const images = document.querySelectorAll("#thumbnail, #avatar")
     const textBlocks = document.querySelectorAll(".yt-formatted-string, #video-title, .ytd-video-meta-block, .ytd-rich-shelf-renderer")
@@ -50,7 +47,6 @@ const blurThumbnails = () => {
 }
 
 const showThumbnails = () => {
-    console.log("In showThumbnails!")
     
     const images = document.querySelectorAll("#thumbnail, #avatar")
     const textBlocks = document.querySelectorAll(".yt-formatted-string, #video-title, .ytd-video-meta-block, .ytd-rich-shelf-renderer")

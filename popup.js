@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const blurSwitch = document.querySelector("#blur-input")
 
+    // Checks if there's already a "checked" property in storage
     chrome.storage.sync.get(['checked'], result => {
 
         chrome.tabs.query({currentWindow: true, active: true}, (tabs) => {
@@ -10,12 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 blurSwitch.checked = result.checked
             }
         })
-        console.log(`Checked currently is: ${result}`)
     })
 
     blurSwitch.addEventListener('click', () => {
         chrome.storage.sync.set({checked: blurSwitch.checked}, () => {
-            console.log(`Checked value set to: ${blurSwitch.checked}`)
             
             chrome.tabs.query({currentWindow: true, active: true}, (tabs) => {
                 chrome.tabs.sendMessage(tabs[0].id, blurSwitch.checked)
