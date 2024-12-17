@@ -1,35 +1,82 @@
+let blurEnabled = false;
+let observer = null;
+
 // Checks "checked" value in storage
 chrome.storage.sync.get(['checked'], result => {
-
-    if(result.checked) {
-        blurThumbnails()
-    } else {
-        showThumbnails()
+    if (result && result.checked !== undefined) {
+        blurEnabled = result.checked;
+      toggleBlur(blurEnabled);
     }
 });
 
 // Checks for messages being sent
-chrome.runtime.onMessage.addListener((request) => {  
-    if (request.checked === false || request === false) {
-        showThumbnails()
-        window.removeEventListener("scroll", blurThumbnails)
-        window.addEventListener("scroll", showThumbnails)
+chrome.runtime.onMessage.addListener((request) => {
+    if (request === false || request.checked === false) {
+       blurEnabled = false;
     } else {
-        blurThumbnails()
-        window.removeEventListener("scroll", showThumbnails)
-        window.addEventListener("scroll", blurThumbnails)
+      blurEnabled = true;
     }
-})
+    toggleBlur(blurEnabled);
+});
+
+function toggleBlur(enabled) {
+    if (enabled) {
+        startBlur();
+    } else {
+        stopBlur();
+    }
+    applyBlurState(enabled);
+}
+
+
+function applyBlurState(enabled) {
+    if (enabled) {
+        blurThumbnails();
+        window.addEventListener("scroll", blurThumbnails);
+    } else {
+        showThumbnails();
+        window.removeEventListener("scroll", blurThumbnails);
+    }
+}
+
+
+function startBlur() {
+    if(observer) return;
+    blurThumbnails();
+
+    observer = new MutationObserver(mutations => {
+        mutations.forEach(mutation => {
+            if (mutation.addedNodes.length) {
+                blurThumbnails();
+            }
+        });
+    });
     
-    
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+}
+
+function stopBlur() {
+    showThumbnails();
+    if(observer){
+      observer.disconnect();
+      observer = null;
+    }
+
+    window.removeEventListener("scroll", blurThumbnails);
+}
+
+
 const blurThumbnails = () => {
     
-    const images = document.querySelectorAll("#thumbnail, #avatar")
+    const images = document.querySelectorAll("#thumbnail, #avatar-container, .yt-core-image, .shortsLockupViewModelHostOutsideMetadata")
     const textBlocks = document.querySelectorAll(".yt-formatted-string, #video-title, .ytd-video-meta-block, .ytd-rich-shelf-renderer")
     const badges = document.querySelectorAll(".badge-style-type-live-now, .ytd-badge-supported-renderer")
         
     images.forEach(image => {
-        if(image.id === "avatar") {
+        if(image.id === "avatar-container" || image.classList[0] === "shortsLockupViewModelHostOutsideMetadata") {
             image.style.filter = "blur(5px)"
         } else {
             image.style.filter = "blur(30px)"
@@ -48,13 +95,13 @@ const blurThumbnails = () => {
 
 const showThumbnails = () => {
     
-    const images = document.querySelectorAll("#thumbnail, #avatar")
+    const images = document.querySelectorAll("#thumbnail, #avatar-container, .yt-core-image, .shortsLockupViewModelHostOutsideMetadata")
     const textBlocks = document.querySelectorAll(".yt-formatted-string, #video-title, .ytd-video-meta-block, .ytd-rich-shelf-renderer")
     const badges = document.querySelectorAll(".badge-style-type-live-now, .ytd-badge-supported-renderer")
 
 
     images.forEach(image => {
-        if(image.id === "avatar") {
+        if(image.id === "avatar-container" || image.classList[0] === "shortsLockupViewModelHostOutsideMetadata") {
             image.style.filter = "blur(0)"
         } else {
             image.style.filter = "blur(0)"
@@ -70,4 +117,3 @@ const showThumbnails = () => {
         badge.style.display = "block"
     })
 }
-
