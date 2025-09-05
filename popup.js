@@ -7,7 +7,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         chrome.tabs.query({currentWindow: true, active: true}, (tabs) => {
             if (result !== null) {
-                chrome.tabs.sendMessage(tabs[0].id, result)
+                // Add error handling for sendMessage
+                chrome.tabs.sendMessage(tabs[0].id, result, (response) => {
+                    if (chrome.runtime.lastError) {
+                        console.log('Content script not ready from popup:', chrome.runtime.lastError.message);
+                    }
+                });
                 blurSwitch.checked = result.checked
             }
         })
@@ -17,7 +22,12 @@ document.addEventListener('DOMContentLoaded', () => {
         chrome.storage.sync.set({checked: blurSwitch.checked}, () => {
             
             chrome.tabs.query({currentWindow: true, active: true}, (tabs) => {
-                chrome.tabs.sendMessage(tabs[0].id, blurSwitch.checked)
+                // Add error handling for sendMessage
+                chrome.tabs.sendMessage(tabs[0].id, blurSwitch.checked, (response) => {
+                    if (chrome.runtime.lastError) {
+                        console.log('Content script not ready from popup:', chrome.runtime.lastError.message);
+                    }
+                });
             })
 
         })

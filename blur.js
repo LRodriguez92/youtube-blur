@@ -74,9 +74,9 @@ function stopBlur() {
 
 const blurThumbnails = () => {
     
-    const images = document.querySelectorAll("#thumbnail, #avatar-container, .yt-core-image, .shortsLockupViewModelHostOutsideMetadata")
-    const textBlocks = document.querySelectorAll(".yt-formatted-string, #video-title, .ytd-video-meta-block, .ytd-rich-shelf-renderer")
-    const badges = document.querySelectorAll(".badge-style-type-live-now, .ytd-badge-supported-renderer")
+    const images = document.querySelectorAll(".ytThumbnailViewModelImage, .shortsLockupViewModelHostThumbnail, .yt-mini-game-card-view-model, .yt-spec-avatar-shape--avatar-size-medium")
+    const textBlocks = document.querySelectorAll(".yt-lockup-metadata-view-model__title, .yt-content-metadata-view-model__metadata-row, .shortsLockupViewModelHostOutsideMetadataEndpoint, .shortsLockupViewModelHostOutsideMetadataSubhead")
+    const badges = document.querySelectorAll(".badge-style-type-live-now, .ytd-badge-supported-renderer, .yt-thumbnail-overlay-badge-view-model--bottom-end")
         
     images.forEach(image => {
         if(image.id === "avatar-container" || image.classList[0] === "shortsLockupViewModelHostOutsideMetadata") {
@@ -98,9 +98,9 @@ const blurThumbnails = () => {
 
 const showThumbnails = () => {
     
-    const images = document.querySelectorAll("#thumbnail, #avatar-container, .yt-core-image, .shortsLockupViewModelHostOutsideMetadata, .ytCoreImageHost")
-    const textBlocks = document.querySelectorAll(".yt-formatted-string, #video-title, .ytd-video-meta-block, .ytd-rich-shelf-renderer")
-    const badges = document.querySelectorAll(".badge-style-type-live-now, .ytd-badge-supported-renderer")
+    const images = document.querySelectorAll(".ytThumbnailViewModelImage, .shortsLockupViewModelHostThumbnail, .yt-mini-game-card-view-model, .yt-spec-avatar-shape--avatar-size-medium")
+    const textBlocks = document.querySelectorAll(".yt-lockup-metadata-view-model__title, .yt-content-metadata-view-model__metadata-row, .shortsLockupViewModelHostOutsideMetadataEndpoint, .shortsLockupViewModelHostOutsideMetadataSubhead")
+    const badges = document.querySelectorAll(".badge-style-type-live-now, .ytd-badge-supported-renderer, .yt-thumbnail-overlay-badge-view-model--bottom-end")
 
 
     images.forEach(image => {
