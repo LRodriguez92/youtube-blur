@@ -10,13 +10,16 @@ chrome.storage.sync.get(['checked'], result => {
 });
 
 // Checks for messages being sent
-chrome.runtime.onMessage.addListener((request) => {
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request === false || request.checked === false) {
        blurEnabled = false;
     } else {
       blurEnabled = true;
     }
     toggleBlur(blurEnabled);
+    
+    // Send response back to background script
+    sendResponse({status: 'received'});
 });
 
 function toggleBlur(enabled) {
@@ -95,7 +98,7 @@ const blurThumbnails = () => {
 
 const showThumbnails = () => {
     
-    const images = document.querySelectorAll("#thumbnail, #avatar-container, .yt-core-image, .shortsLockupViewModelHostOutsideMetadata")
+    const images = document.querySelectorAll("#thumbnail, #avatar-container, .yt-core-image, .shortsLockupViewModelHostOutsideMetadata, .ytCoreImageHost")
     const textBlocks = document.querySelectorAll(".yt-formatted-string, #video-title, .ytd-video-meta-block, .ytd-rich-shelf-renderer")
     const badges = document.querySelectorAll(".badge-style-type-live-now, .ytd-badge-supported-renderer")
 

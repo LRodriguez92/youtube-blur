@@ -10,12 +10,24 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
                     if (current_tab_info.url === "https://www.youtube.com/" && result.checked) {
                         
                         chrome.tabs.query({currentWindow: true, active: true}, (tabs) => {
-                            chrome.tabs.sendMessage(tabs[0].id, true)
+                            // Add error handling for sendMessage
+                            chrome.tabs.sendMessage(tabs[0].id, true, (response) => {
+                                if (chrome.runtime.lastError) {
+                                    // Content script not ready or doesn't exist
+                                    console.log('Content script not ready:', chrome.runtime.lastError.message);
+                                }
+                            });
                         })
                     } else {
                         // Runs when not in the homepage
                         chrome.tabs.query({currentWindow: true, active: true}, (tabs) => {
-                            chrome.tabs.sendMessage(tabs[0].id, false)
+                            // Add error handling for sendMessage
+                            chrome.tabs.sendMessage(tabs[0].id, false, (response) => {
+                                if (chrome.runtime.lastError) {
+                                    // Content script not ready or doesn't exist
+                                    console.log('Content script not ready:', chrome.runtime.lastError.message);
+                                }
+                            });
                         })
                     }
                 }
