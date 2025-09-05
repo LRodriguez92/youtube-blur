@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     const blurSwitch = document.querySelector("#blur-input")
+    const changelogBtn = document.querySelector("#changelog-btn")
 
     // Checks if there's already a "checked" property in storage
     chrome.storage.sync.get(['checked'], result => {
@@ -32,5 +33,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         })
     }, false)
+
+    // Changelog button functionality
+    changelogBtn.addEventListener('click', () => {
+        // Open changelog in a new tab
+        chrome.tabs.create({
+            url: chrome.runtime.getURL('changelog.html')
+        })
+    })
 
 }, false)

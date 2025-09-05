@@ -2,7 +2,7 @@
     "name": "YouTube Blur",
     "description": "Avoid distractions on YouTube by blurring the thumbnails on the homepage",
     "manifest_version": 3,
-    "version": "1.0.1",
+    "version": "1.1.0",
     "icons": {"128": "icon_128.png"},
     "action": {
         "default_icon": "icon.png",
@@ -17,8 +17,14 @@
     },
     "content_scripts": [
         {
-            "matches": ["https://*.youtube.com/"],
+            "matches": ["https://*.youtube.com/*"],
             "js": ["blur.js"]
+        }
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": ["changelog.html"],
+            "matches": ["<all_urls>"]
         }
     ]
 }
